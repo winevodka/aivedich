@@ -91,68 +91,68 @@ export function PathRenderer({
         </g>
       ))}
 
-      {/* Finish Flag + ĐÍCH badge */}
-      <motion.g
-        initial={{ scale: 0.92 }}
-        animate={{ scale: revealWinner ? [1, 1.14, 1] : 1 }}
-        transition={{ duration: 0.4 }}
-        transform={`translate(${puzzle.finishPoint.x}, ${puzzle.finishPoint.y})`}
-      >
-        {/* Flagpole */}
-        <line
-          x1={-10}
-          y1={-28}
-          x2={-10}
-          y2={14}
-          stroke="#D9822B"
-          strokeWidth={4}
-          strokeLinecap="round"
-        />
-        {/* Base */}
-        <ellipse cx={-10} cy={15} rx={12} ry={4} fill="#E6A13C" />
-
-        {/* Checkered Flag (2 rows x 4 cols) */}
-        <g transform="translate(-8, -28)">
-          {[0, 1].map((row) =>
-            [0, 1, 2, 3].map((col) => {
-              const isRed = (row + col) % 2 === 0;
-              const waveY = Math.sin(col * 0.7) * 2.2 + row * 7.5;
-              return (
-                <rect
-                  key={`${row}-${col}`}
-                  x={col * 6.5}
-                  y={waveY}
-                  width={6.5}
-                  height={7.5}
-                  fill={isRed ? '#FF5A4E' : '#FFFFFF'}
-                  stroke="#E55347"
-                  strokeWidth={0.4}
-                />
-              );
-            })
-          )}
-        </g>
-
-        {/* ĐÍCH pill */}
-        <rect
-          x={-34}
-          y={20}
-          width={48}
-          height={20}
-          rx={10}
-          fill="#FAD4CE"
-        />
-        <text
-          x={-10}
-          y={34}
-          textAnchor="middle"
-          fontSize="11"
-          fontWeight="900"
-          fill="#D9534F"
+      {/* Finish Flag + ĐÍCH badge at bottom-right */}
+      <g transform={`translate(${puzzle.finishPoint.x}, ${puzzle.finishPoint.y})`}>
+        <motion.g
+          initial={{ scale: 0.94 }}
+          animate={{ scale: revealWinner ? [1, 1.15, 1] : 1 }}
+          transition={{ duration: 0.35 }}
         >
-          ĐÍCH
-        </text>
-      </motion.g>
-    </g>
+          {/* Flagpole */}
+          <line
+            x1={0}
+            y1={-34}
+            x2={0}
+            y2={12}
+            stroke="#D9822B"
+            strokeWidth={4.5}
+            strokeLinecap="round"
+          />
+          {/* Base */}
+          <ellipse cx={0} cy={13} rx={13} ry={4.5} fill="#E6A13C" />
+
+          {/* Checkered Flag (2 rows x 4 cols) */}
+          <g transform="translate(2, -34)">
+            {[0, 1].map((row) =>
+              [0, 1, 2, 3].map((col) => {
+                const isRed = (row + col) % 2 === 0;
+                const waveY = Math.sin(col * 0.7) * 2 + row * 7.5;
+                return (
+                  <rect
+                    key={`${row}-${col}`}
+                    x={col * 6.5}
+                    y={waveY}
+                    width={6.5}
+                    height={7.5}
+                    fill={isRed ? '#FF5A4E' : '#FFFFFF'}
+                    stroke="#E55347"
+                    strokeWidth={0.4}
+                  />
+                );
+              })
+            )}
+          </g>
+
+          {/* ĐÍCH pill */}
+          <rect
+            x={-24}
+            y={20}
+            width={48}
+            height={20}
+            rx={10}
+            fill="#FAD4CE"
+          />
+          <text
+            x={0}
+            y={34}
+            textAnchor="middle"
+            fontSize="11"
+            fontWeight="900"
+            fill="#D9534F"
+          >
+            ĐÍCH
+          </text>
+        </motion.g>
+      </g>
   );
 }

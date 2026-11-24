@@ -1,7 +1,7 @@
 import { AnimalId, ANIMALS, Difficulty, DIFFICULTY_CONFIG, Point } from '../types/game';
 
 export const BOARD_SIZE = 600;
-export const FINISH_POINT: Point = { x: 528, y: 472 };
+export const FINISH_POINT: Point = { x: 525, y: 485 };
 
 export const START_Y_POSITIONS: Record<AnimalId, number> = {
   rabbit: 90,
@@ -100,8 +100,8 @@ export function generateAnimalWaypoints(
     const pts = waypointsMap[id];
 
     if (isWinner) {
-      pts.push({ x: 505, y: 455 });
-      pts.push({ x: FINISH_POINT.x - 10, y: FINISH_POINT.y + 8 });
+      pts.push({ x: 485, y: 470 });
+      pts.push({ x: FINISH_POINT.x - 10, y: FINISH_POINT.y + 4 });
     } else {
       const deadEnd = deadEndCandidates[deadEndIdx % deadEndCandidates.length];
       deadEndIdx += 1;

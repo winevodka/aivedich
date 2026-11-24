@@ -154,5 +154,6 @@ export function PathRenderer({
           </text>
         </motion.g>
       </g>
+    </g>
   );
 }

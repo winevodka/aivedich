@@ -1,20 +1,20 @@
 import { BOARD_SIZE } from '../game/PathGenerator';
-import { AnimalId, PuzzleData } from '../types/game';
+import { PuzzleData } from '../types/game';
 import { PathRenderer } from './PathRenderer';
 
 interface PuzzleBoardProps {
   puzzle: PuzzleData;
-  selectedAnimal: AnimalId | null;
+  highlightedAnimalId: PuzzleData['winnerId'] | null;
   revealWinner: boolean;
 }
 
 export function PuzzleBoard({
   puzzle,
-  selectedAnimal,
+  highlightedAnimalId,
   revealWinner,
 }: PuzzleBoardProps) {
   return (
-    <div className="relative mx-auto aspect-square max-h-[70vh] w-full max-w-[70vh] overflow-hidden rounded-3xl border-4 border-[#A5D6C4] bg-[#FFF8EA] shadow-soft">
+    <div className="relative mx-auto aspect-square max-h-[68vh] w-full max-w-[68vh] overflow-hidden rounded-3xl border-4 border-[#A5D6C4] bg-[#FFF8EA] shadow-soft">
       <svg
         viewBox={`0 0 ${BOARD_SIZE} ${BOARD_SIZE}`}
         preserveAspectRatio="xMidYMid meet"
@@ -35,7 +35,7 @@ export function PuzzleBoard({
         <rect width={BOARD_SIZE} height={BOARD_SIZE} fill="url(#soft-dots)" />
         <PathRenderer
           puzzle={puzzle}
-          highlightAnimal={selectedAnimal}
+          highlightAnimal={highlightedAnimalId}
           revealWinner={revealWinner}
         />
       </svg>

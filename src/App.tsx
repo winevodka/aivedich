@@ -1,4 +1,4 @@
-import { Trophy, Sparkles } from 'lucide-react';
+import { Sparkles, Trophy } from 'lucide-react';
 import { AnimalCard } from './components/AnimalCard';
 import { AnswerPanel } from './components/AnswerPanel';
 import { DifficultySelector } from './components/DifficultySelector';
@@ -24,26 +24,30 @@ export function App() {
     regenerate,
   } = usePuzzle();
 
+  const highlightedAnimalId =
+    status === 'correct'
+      ? puzzle.winnerId
+      : status === 'wrong'
+        ? selectedAnimal
+        : null;
+
   return (
-    <div className="min-h-screen bg-[#F7F5EF] px-3 py-4 sm:px-6 sm:py-6 lg:py-8">
-      <div className="mx-auto max-w-5xl">
+    <div className="min-h-screen bg-[#F7F5EF] px-3 py-4 sm:px-6 sm:py-5">
+      <div className="mx-auto max-w-4xl">
         {/* Header */}
-        <header className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <header className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-black tracking-tight text-[#1C7D88] sm:text-3xl">
               Ai sẽ tới đích?
             </h1>
-            <p className="text-xs font-bold text-[#243B40]/70 sm:text-sm">
-              Dò theo đường dây và tìm bạn thú về đích duy nhất!
-            </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5">
-            <div className="flex items-center gap-1.5 rounded-2xl border-2 border-[#A5D6C4] bg-white px-3.5 py-1.5 text-xs font-extrabold sm:text-sm">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-1.5 rounded-2xl border-2 border-[#A5D6C4] bg-white px-3 py-1 text-xs font-extrabold sm:text-sm">
               <Sparkles className="h-4 w-4 text-[#FF7F6A]" />
               <span>Màn {level}</span>
             </div>
-            <div className="flex items-center gap-1.5 rounded-2xl border-2 border-[#A5D6C4] bg-white px-3.5 py-1.5 text-xs font-extrabold sm:text-sm">
+            <div className="flex items-center gap-1.5 rounded-2xl border-2 border-[#A5D6C4] bg-white px-3 py-1 text-xs font-extrabold sm:text-sm">
               <Trophy className="h-4 w-4 text-[#FFB703]" />
               <span>
                 {score} đ (Kỷ lục: {bestScore})
@@ -53,51 +57,38 @@ export function App() {
         </header>
 
         {/* Difficulty Bar */}
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           <DifficultySelector difficulty={difficulty} onChange={setDifficulty} />
-          <span className="rounded-xl bg-[#A5D6C4]/35 px-3 py-1.5 text-xs font-extrabold text-[#1C7D88]">
+          <span className="rounded-xl bg-[#A5D6C4]/35 px-3 py-1 text-xs font-extrabold text-[#1C7D88]">
             Số giao cắt: {puzzle.crossings.length}
           </span>
         </div>
 
-        {/* Main Game Area */}
-        <main className="grid grid-cols-1 items-center gap-2 md:grid-cols-[104px_minmax(0,1fr)] md:gap-1.5 lg:grid-cols-[116px_minmax(0,1fr)] lg:gap-2">
-          {/* Left: 4 Animal Avatars */}
-          <aside className="grid grid-cols-4 gap-2 md:h-[min(70vh,600px)] md:grid-cols-1 md:grid-rows-4 md:gap-0">
+        {/* Main Game Area: 4 Animals (non-clickable) + Board */}
+        <main className="grid grid-cols-1 items-center gap-2 md:grid-cols-[96px_minmax(0,1fr)] md:gap-1.5">
+          <aside className="grid grid-cols-4 gap-2 md:h-[min(68vh,600px)] md:grid-cols-1 md:grid-rows-4 md:gap-0">
             {ANIMALS.map((animal) => (
-              <div key={animal.id} className="flex items-center justify-center">
-                <AnimalCard
-                  animal={animal}
-                  isSelected={selectedAnimal === animal.id}
-                  isWrong={status === 'wrong' && selectedAnimal === animal.id}
-                  isWinnerRevealed={
-                    status === 'correct' && puzzle.winnerId === animal.id
-                  }
-                  onSelect={() => handleSelectAnimal(animal.id)}
-                />
-              </div>
+              <AnimalCard key={animal.id} animal={animal} />
             ))}
           </aside>
 
-          {/* Right: Square SVG Puzzle Board */}
           <section className="flex w-full justify-start">
             <PuzzleBoard
               puzzle={puzzle}
-              selectedAnimal={selectedAnimal}
+              highlightedAnimalId={highlightedAnimalId}
               revealWinner={status === 'correct'}
             />
           </section>
         </main>
 
-        {/* Bottom Action Panel */}
-        <footer className="mt-5 rounded-3xl border-2 border-[#A5D6C4]/80 bg-white/80 p-4 shadow-sm">
-          <AnswerPanel
-            selectedAnimal={selectedAnimal}
-            status={status}
-            onSubmit={handleSubmit}
-            onRegenerate={regenerate}
-          />
-        </footer>
+        {/* Bottom Answer Selection & Submit */}
+        <AnswerPanel
+          selectedAnimal={selectedAnimal}
+          status={status}
+          onSelectAnimal={handleSelectAnimal}
+          onSubmit={handleSubmit}
+          onRegenerate={regenerate}
+        />
       </div>
 
       <ResultModal

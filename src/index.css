@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #f7f5ef;
+    color: #243b40;
+    font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+  }
+}

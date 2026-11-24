@@ -1,13 +1,14 @@
 import { AnimalId, ANIMALS, Difficulty, DIFFICULTY_CONFIG, Point } from '../types/game';
 
 export const BOARD_SIZE = 600;
-export const FINISH_POINT: Point = { x: 552, y: 540 };
+export const FINISH_POINT: Point = { x: 536, y: 516 };
 
+// Tương ứng với 4 hàng đều nhau trong khung 600px (15%, 38.3%, 61.7%, 85%)
 export const START_Y_POSITIONS: Record<AnimalId, number> = {
-  rabbit: 105,
-  cat: 225,
-  dog: 345,
-  bear: 465,
+  rabbit: 90,
+  cat: 230,
+  dog: 370,
+  bear: 510,
 };
 
 function randomRange(min: number, max: number): number {
@@ -34,13 +35,20 @@ export function generateAnimalWaypoints(
   winnerId: AnimalId
 ): RawAnimalWaypoints[] {
   const targetCrossings = DIFFICULTY_CONFIG[difficulty].targetCrossings;
-  const columns = difficulty === 'easy' ? 4 : difficulty === 'medium' ? 6 : difficulty === 'hard' ? 8 : 10;
+  const columns =
+    difficulty === 'easy'
+      ? 4
+      : difficulty === 'medium'
+        ? 6
+        : difficulty === 'hard'
+          ? 8
+          : 10;
 
-  const startX = 28;
-  const endX = 512;
+  const startX = 24;
+  const endX = 490;
   const stepX = (endX - startX) / columns;
 
-  const laneYs = [90, 210, 330, 450];
+  const laneYs = [90, 230, 370, 510];
   const animalIds = ANIMALS.map((a) => a.id);
 
   const waypointsMap: Record<AnimalId, Point[]> = {
@@ -57,7 +65,7 @@ export function generateAnimalWaypoints(
     animalIds.forEach((id, idx) => {
       const jitterX = col === columns ? 0 : randomRange(-stepX * 0.22, stepX * 0.22);
       const jitterY = randomRange(-36, 36);
-      const yVal = Math.max(55, Math.min(525, shuffledLanes[idx] + jitterY));
+      const yVal = Math.max(55, Math.min(520, shuffledLanes[idx] + jitterY));
 
       waypointsMap[id].push({
         x: Math.max(startX + 20, Math.min(endX, xBase + jitterX)),
@@ -66,13 +74,12 @@ export function generateAnimalWaypoints(
     });
   }
 
-  // Add extra detours for higher difficulties to boost crossing density
   if (targetCrossings >= 25) {
     animalIds.forEach((id) => {
       const pts = waypointsMap[id];
       const midIndex = Math.floor(pts.length / 2);
       const midPt = pts[midIndex];
-      const detourY = midPt.y > 300 ? randomRange(70, 220) : randomRange(340, 500);
+      const detourY = midPt.y > 300 ? randomRange(70, 220) : randomRange(340, 490);
       pts.splice(midIndex, 0, {
         x: Math.max(70, midPt.x - 18),
         y: detourY,
@@ -80,13 +87,11 @@ export function generateAnimalWaypoints(
     });
   }
 
-  // Dead-end positions for non-winning animals (away from finish flag)
   const deadEndCandidates: Point[] = shuffleArray([
-    { x: 485, y: 85 },
-    { x: 520, y: 185 },
-    { x: 470, y: 295 },
-    { x: 515, y: 395 },
-    { x: 420, y: 525 },
+    { x: 525, y: 95 },
+    { x: 525, y: 215 },
+    { x: 525, y: 335 },
+    { x: 430, y: 525 },
   ]);
 
   let deadEndIdx = 0;
@@ -96,14 +101,14 @@ export function generateAnimalWaypoints(
     const pts = waypointsMap[id];
 
     if (isWinner) {
-      pts.push({ x: 530, y: 515 });
-      pts.push({ ...FINISH_POINT });
+      pts.push({ x: 515, y: 495 });
+      pts.push({ x: FINISH_POINT.x - 10, y: FINISH_POINT.y + 6 });
     } else {
       const deadEnd = deadEndCandidates[deadEndIdx % deadEndCandidates.length];
       deadEndIdx += 1;
       pts.push({
-        x: deadEnd.x + randomRange(-10, 10),
-        y: deadEnd.y + randomRange(-10, 10),
+        x: deadEnd.x + randomRange(-8, 8),
+        y: deadEnd.y + randomRange(-8, 8),
       });
     }
 

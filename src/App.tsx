@@ -61,20 +61,21 @@ export function App() {
         </div>
 
         {/* Main Game Area */}
-        <main className="grid grid-cols-1 items-center gap-4 md:grid-cols-[200px_1fr] lg:grid-cols-[220px_1fr] lg:gap-6">
-          {/* Left: 4 Animal Avatars */}
-          <aside className="grid grid-cols-2 gap-2.5 md:grid-cols-1 md:gap-3.5">
+        <main className="grid grid-cols-1 items-stretch gap-2 md:grid-cols-[108px_1fr] md:gap-1.5 lg:grid-cols-[120px_1fr] lg:gap-2">
+          {/* Left: 4 Animal Avatars aligned with start nodes */}
+          <aside className="grid grid-cols-4 gap-2 md:grid-cols-1 md:grid-rows-4 md:gap-0 md:py-[6%]">
             {ANIMALS.map((animal) => (
-              <AnimalCard
-                key={animal.id}
-                animal={animal}
-                isSelected={selectedAnimal === animal.id}
-                isWrong={status === 'wrong' && selectedAnimal === animal.id}
-                isWinnerRevealed={
-                  status === 'correct' && puzzle.winnerId === animal.id
-                }
-                onSelect={() => handleSelectAnimal(animal.id)}
-              />
+              <div key={animal.id} className="flex items-center justify-center">
+                <AnimalCard
+                  animal={animal}
+                  isSelected={selectedAnimal === animal.id}
+                  isWrong={status === 'wrong' && selectedAnimal === animal.id}
+                  isWinnerRevealed={
+                    status === 'correct' && puzzle.winnerId === animal.id
+                  }
+                  onSelect={() => handleSelectAnimal(animal.id)}
+                />
+              </div>
             ))}
           </aside>
 

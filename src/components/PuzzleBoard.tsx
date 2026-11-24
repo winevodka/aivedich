@@ -14,7 +14,7 @@ export function PuzzleBoard({
   revealWinner,
 }: PuzzleBoardProps) {
   return (
-    <div className="relative aspect-square w-full overflow-hidden rounded-3xl border-4 border-[#A5D6C4] bg-[#FFF8EA] shadow-soft">
+    <div className="relative mx-auto aspect-square max-h-[70vh] w-full max-w-[70vh] overflow-hidden rounded-3xl border-4 border-[#A5D6C4] bg-[#FFF8EA] shadow-soft">
       <svg
         viewBox={`0 0 ${BOARD_SIZE} ${BOARD_SIZE}`}
         className="h-full w-full select-none"

@@ -61,9 +61,9 @@ export function App() {
         </div>
 
         {/* Main Game Area */}
-        <main className="grid grid-cols-1 items-stretch gap-2 md:grid-cols-[108px_1fr] md:gap-1.5 lg:grid-cols-[120px_1fr] lg:gap-2">
-          {/* Left: 4 Animal Avatars aligned with start nodes */}
-          <aside className="grid grid-cols-4 gap-2 md:grid-cols-1 md:grid-rows-4 md:gap-0 md:py-[6%]">
+        <main className="grid grid-cols-1 items-center gap-2 md:grid-cols-[104px_minmax(0,1fr)] md:gap-1.5 lg:grid-cols-[116px_minmax(0,1fr)] lg:gap-2">
+          {/* Left: 4 Animal Avatars */}
+          <aside className="grid grid-cols-4 gap-2 md:h-[min(70vh,600px)] md:grid-cols-1 md:grid-rows-4 md:gap-0">
             {ANIMALS.map((animal) => (
               <div key={animal.id} className="flex items-center justify-center">
                 <AnimalCard
@@ -80,7 +80,7 @@ export function App() {
           </aside>
 
           {/* Right: Square SVG Puzzle Board */}
-          <section className="w-full">
+          <section className="flex w-full justify-start">
             <PuzzleBoard
               puzzle={puzzle}
               selectedAnimal={selectedAnimal}
